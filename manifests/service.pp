@@ -188,8 +188,12 @@ class docker::service (
     }
   }
 
-  if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '15.04') < 0 {
-    $provider = 'upstart'
+  if $::operatingsystem == 'Ubuntu' {
+    if versioncmp($::operatingsystemrelease, '15.04') < 0 {
+      $provider = 'upstart'
+    } else {
+      $provider = 'systemd'
+    }
   } else {
     $provider = undef
   }
